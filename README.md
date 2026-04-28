@@ -1,50 +1,66 @@
-# Welcome to your Expo app 👋
+# CloneXTwitter
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Мобільний додаток-клон соціальної мережі X (Twitter), створений з використанням Expo, Clerk та Convex.
 
-## Get started
+## Учасники
 
-1. Install dependencies
+| Ім'я   | Роль                                                          |
+| ------ | ------------------------------------------------------------- |
+| Богдан | Team Lead / Auth Developer / Backend Developer / UI Developer |
 
-   ```bash
-   npm install
-   ```
+> Проєкт виконано індивідуально (всі ролі в одній особі)
 
-2. Start the app
+## Технології
 
-   ```bash
-   npx expo start
-   ```
+- **Expo** - фреймворк для React Native
+- **Expo Router** - навігація (Stack + Tabs)
+- **Clerk** - аутентифікація (Google OAuth)
+- **Convex** - база даних та backend
+- **TypeScript** - типізація
 
-In the output, you'll find options to open the app in a
+## Інструкція запуску
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+### Передумови
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+- Node.js (версія 18 або вище)
+- npm
+- Android Studio / Xcode (для емулятора) або фізичний пристрій з Expo Go
 
-## Get a fresh project
-
-When you're ready, run:
+### Крок 1: Клонування репозиторію
 
 ```bash
-npm run reset-project
+git clone https://github.com/Bogdan228-228/CloneXTwitter.git
+cd CloneXTwitter
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### Крок 2: Встановлення залежностей
 
-## Learn more
+```bash
+npm install
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+### Крок 3: Налаштування змінних середовища
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+- Створіть файл .env в корені проєкту:
 
-## Join the community
+```env
+EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY=...
+EXPO_PUBLIC_CONVEX_URL=...
+```
 
-Join our community of developers creating universal apps.
+### Крок 4: Запуск додатку
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+```bash
+npm start
+npx convex dev
+```
+
+## Скріншоти
+
+### Екран логіну
+
+![Екран логіну](./screenshots/login.jpg)
+
+### Головний екран (Feed)
+
+![Feed екран](./screenshots/feed.jpg)

@@ -1,9 +1,10 @@
+import { COLORS } from "@/constants/theme";
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0f172a",
+    backgroundColor: COLORS.background,
   },
 
   brandSection: {
@@ -17,7 +18,6 @@ export const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 16,
-    backgroundColor: "rgba(59, 130, 246, 0.15)",
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 16,
@@ -26,12 +26,12 @@ export const styles = StyleSheet.create({
   appName: {
     fontSize: 28,
     fontWeight: "700",
-    color: "#fff",
+    color: COLORS.white,
   },
 
   tagline: {
     fontSize: 14,
-    color: "#94a3b8",
+    color: COLORS.grey,
     marginTop: 6,
   },
 
@@ -54,7 +54,7 @@ export const styles = StyleSheet.create({
 
   googleButton: {
     flexDirection: "row",
-    backgroundColor: "#ffffff",
+    backgroundColor: COLORS.white,
     paddingVertical: 14,
     borderRadius: 14,
     alignItems: "center",
@@ -71,7 +71,7 @@ export const styles = StyleSheet.create({
   },
 
   googleButtonText: {
-    color: "#111827",
+    color: COLORS.surfaceLight,
     fontSize: 16,
     fontWeight: "600",
   },
