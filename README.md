@@ -65,6 +65,10 @@ npx convex dev
 
 ![Feed екран](./screenshots/feed.jpg)
 
-### Таблиці Convex, новий user
+### Екран додавання посту (Create)
 
-![Таблиці Convex, новий user](./screenshots/tables_users_newUser.png)
+![Create екран](./screenshots/create_with_image.jpg)
+
+### Таблиці Convex, новий post
+
+![New post](./screenshots/tables.posts.newPost.png)
