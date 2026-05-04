@@ -64,3 +64,7 @@ npx convex dev
 ### Головний екран (Feed)
 
 ![Feed екран](./screenshots/feed.jpg)
+
+### Таблиці Convex, новий user
+
+![Таблиці Convex, новий user](./screenshots/tables_users_newUser.png)

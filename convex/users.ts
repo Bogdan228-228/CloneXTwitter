@@ -11,6 +11,7 @@ export const createUser = mutation({
     clerkId: v.string(),
   },
   handler: async (ctx, args) => {
+    // Перевірка чи користувач вже існує
     const existingUser = await ctx.db
       .query("users")
       .withIndex("by_clerk_id", (q) => q.eq("clerkId", args.clerkId))
@@ -18,6 +19,7 @@ export const createUser = mutation({
 
     if (existingUser) return;
 
+    // Створення нового користувача
     await ctx.db.insert("users", {
       username: args.username,
       fullname: args.fullname,
