@@ -93,7 +93,7 @@ export default function Create() {
       <View style={styles.container}>
         <View style={styles.header}>
           <TouchableOpacity onPress={() => router.back()}>
-            <Ionicons name="arrow-back" size={28} color={COLORS.primary} />
+            <Ionicons name="arrow-back" size={28} color={COLORS.grey} />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>New Post</Text>
           <View style={{ width: 28 }} />

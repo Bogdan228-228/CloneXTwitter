@@ -69,6 +69,14 @@ npx convex dev
 
 ![Create екран](./screenshots/create_with_image.jpg)
 
-### Таблиці Convex, новий post
+### Екран повідомлень від дій з постом
 
-![New post](./screenshots/tables.posts.newPost.png)
+![Notifications екран](./screenshots/notifications.jpg)
+
+### Екран збережених постів
+
+![Bookmarks екран](./screenshots/bookmarks.jpg)
+
+### Екран збереженого поста
+
+![Bookmark екран](./screenshots/oneBookmark.jpg)
