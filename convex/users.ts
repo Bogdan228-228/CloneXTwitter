@@ -60,3 +60,44 @@ export const getUserByClerkId = query({
     return user;
   },
 });
+
+export const getStoriesUsers = query({
+  handler: async (ctx) => {
+    const currentUser = await getAuthenticatedUser(ctx);
+
+    // Отримати користувачів, на яких підписаний поточний користувач
+    const follows = await ctx.db
+      .query("follows")
+      .withIndex("by_follower", (q) => q.eq("followerId", currentUser._id))
+      .collect();
+
+    const followingIds = follows.map((f) => f.followingId);
+
+    // Отримати дані цих користувачів
+    const followingUsers = await Promise.all(
+      followingIds.map((id) => ctx.db.get(id)),
+    );
+
+    // Сформувати список stories
+    const stories = [
+      // Поточний користувач завжди перший ("You")
+      {
+        id: currentUser._id,
+        username: "You",
+        avatar: currentUser.image,
+        hasStory: false, // або перевірка чи є активна story
+      },
+      // Користувачі, на яких підписані
+      ...followingUsers
+        .filter((user) => user !== null)
+        .map((user) => ({
+          id: user!._id,
+          username: user!.username,
+          avatar: user!.image,
+          hasStory: true, // або реальна перевірка
+        })),
+    ];
+
+    return stories;
+  },
+});

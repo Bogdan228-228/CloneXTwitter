@@ -68,7 +68,3 @@ npx convex dev
 ### Екран додавання посту (Create)
 
 ![Create екран](./screenshots/create_with_image.jpg)
-
-### Таблиці Convex, новий post
-
-![New post](./screenshots/tables.posts.newPost.png)
