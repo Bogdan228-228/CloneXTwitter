@@ -72,3 +72,11 @@ npx convex dev
 ### Екран повідомлень від дій з постом
 
 ![Notifications екран](./screenshots/notifications.jpg)
+
+### Екран збережених постів
+
+![Bookmarks екран](./screenshots/bookmarks.jpg)
+
+### Екран збереженого поста
+
+![Bookmark екран](./screenshots/oneBookmark.jpg)

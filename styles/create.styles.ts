@@ -36,7 +36,8 @@ export const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 18,
     fontWeight: "600",
-    color: COLORS.white,
+    fontFamily: "JetBrainsMono-Medium",
+    color: COLORS.primary,
   },
 
   // ========== КНОПКА SHARE ==========
@@ -69,6 +70,7 @@ export const styles = StyleSheet.create({
   emptyImageText: {
     color: COLORS.grey,
     fontSize: 16,
+    fontFamily: "SpaceMono-Regular",
   },
 
   // ========== СЕКЦІЯ ЗОБРАЖЕННЯ ==========
