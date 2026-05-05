@@ -68,3 +68,7 @@ npx convex dev
 ### Екран додавання посту (Create)
 
 ![Create екран](./screenshots/create_with_image.jpg)
+
+### Екран повідомлень від дій з постом
+
+![Notifications екран](./screenshots/notifications.jpg)
