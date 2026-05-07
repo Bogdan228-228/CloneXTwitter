@@ -83,7 +83,9 @@ export function CommentsModal({
           <FlatList
             data={comments}
             keyExtractor={(item) => item._id}
-            renderItem={({ item }) => <Comment comment={item} />}
+            renderItem={({ item }) => (
+              <Comment comment={item} onClose={onClose} />
+            )}
             contentContainerStyle={styles.commentsList}
           />
         )}
