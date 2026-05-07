@@ -105,31 +105,31 @@ export function SwiperNotificationItem({
             {/* CONTENT */}
             <View style={styles.notificationContent}>
               {/* Avatar with Icon Badge */}
-              {/* <Link
+              <Link
                 href={{
                   pathname: "/user/[id]",
                   params: { id: notification.sender._id },
                 }}
                 asChild
-              > */}
-              <TouchableOpacity style={styles.avatarContainer}>
-                <Image
-                  source={notification.sender.image}
-                  style={styles.avatar}
-                  contentFit="cover"
-                  transition={200}
-                />
-                <View style={styles.iconBadge}>
-                  {notification.type === "like" ? (
-                    <Ionicons name="heart" size={14} color={COLORS.primary} />
-                  ) : notification.type === "follow" ? (
-                    <Ionicons name="person-add" size={14} color="#8B5CF6" />
-                  ) : (
-                    <Ionicons name="chatbubble" size={14} color="#3B82F6" />
-                  )}
-                </View>
-              </TouchableOpacity>
-              {/* </Link> */}
+              >
+                <TouchableOpacity style={styles.avatarContainer}>
+                  <Image
+                    source={notification.sender.image}
+                    style={styles.avatar}
+                    contentFit="cover"
+                    transition={200}
+                  />
+                  <View style={styles.iconBadge}>
+                    {notification.type === "like" ? (
+                      <Ionicons name="heart" size={14} color={COLORS.primary} />
+                    ) : notification.type === "follow" ? (
+                      <Ionicons name="person-add" size={14} color="#8B5CF6" />
+                    ) : (
+                      <Ionicons name="chatbubble" size={14} color="#3B82F6" />
+                    )}
+                  </View>
+                </TouchableOpacity>
+              </Link>
 
               {/* Notification Info */}
               <View style={styles.notificationInfo}>

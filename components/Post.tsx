@@ -7,6 +7,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useMutation, useQuery } from "convex/react";
 import { formatDistanceToNow } from "date-fns";
 import { Image } from "expo-image";
+import { Link } from "expo-router";
 import { useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { CommentsModal } from "./CommentsModal";
@@ -81,7 +82,7 @@ export const Post = ({ post }: PostProps) => {
     <View style={styles.post}>
       {/* HEADER */}
       <View style={styles.postHeader}>
-        {/* <Link
+        <Link
           href={
             currentUser?._id === post.author._id
               ? { pathname: "/(tabs)/profile" }
@@ -91,18 +92,18 @@ export const Post = ({ post }: PostProps) => {
                 }
           }
           asChild
-        > */}
-        <TouchableOpacity style={styles.postHeaderLeft}>
-          <Image
-            source={post.author.image}
-            style={styles.postAvatar}
-            contentFit="cover"
-            cachePolicy="memory-disk"
-            transition={200}
-          />
-          <Text style={styles.postUsername}>{post.author.username}</Text>
-        </TouchableOpacity>
-        {/* </Link> */}
+        >
+          <TouchableOpacity style={styles.postHeaderLeft}>
+            <Image
+              source={post.author.image}
+              style={styles.postAvatar}
+              contentFit="cover"
+              cachePolicy="memory-disk"
+              transition={200}
+            />
+            <Text style={styles.postUsername}>{post.author.username}</Text>
+          </TouchableOpacity>
+        </Link>
 
         {/* Delete or Menu button */}
         {post.author._id === currentUser?._id ? (

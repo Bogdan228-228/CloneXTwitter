@@ -80,3 +80,15 @@ npx convex dev
 ### Екран збереженого поста
 
 ![Bookmark екран](./screenshots/oneBookmark.jpg)
+
+### Екран профілю
+
+![Profile екран](./screenshots/profile.jpg)
+
+### Екран профілю модальне вікно посту
+
+![Profile екран](./screenshots/profile_modal_post.jpg)
+
+### Екран профілю редагування профілю
+
+![Profile екран](./screenshots/profile_edit.jpg)
