@@ -1,5 +1,6 @@
 import { Loader } from "@/components/Loader";
 import { NoBookmarksFound } from "@/components/NoBookmarksFound";
+import { COLORS } from "@/constants/theme";
 import { api } from "@/convex/_generated/api";
 import { styles } from "@/styles/feed.styles";
 import { useConvexAuth, useQuery } from "convex/react";
@@ -25,7 +26,17 @@ export default function Bookmarks() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Bookmarks</Text>
+        <Text
+          style={{
+            flex: 1,
+            textAlign: "center",
+            fontSize: 24,
+            fontFamily: "JetBrainsMono-Medium",
+            color: COLORS.primary,
+          }}
+        >
+          Bookmarks
+        </Text>
       </View>
 
       <ScrollView

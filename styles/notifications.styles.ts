@@ -19,6 +19,7 @@ export const styles = StyleSheet.create({
     fontSize: 24,
     fontFamily: "JetBrainsMono-Medium",
     color: COLORS.primary,
+    textAlign: "center",
   },
 
   // List

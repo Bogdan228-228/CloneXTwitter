@@ -1,4 +1,5 @@
 import { v } from "convex/values";
+import { Id } from "./_generated/dataModel";
 import { mutation, MutationCtx, query, QueryCtx } from "./_generated/server";
 
 export const createUser = mutation({
@@ -61,47 +62,6 @@ export const getUserByClerkId = query({
   },
 });
 
-export const getStoriesUsers = query({
-  handler: async (ctx) => {
-    const currentUser = await getAuthenticatedUser(ctx);
-
-    // Отримати користувачів, на яких підписаний поточний користувач
-    const follows = await ctx.db
-      .query("follows")
-      .withIndex("by_follower", (q) => q.eq("followerId", currentUser._id))
-      .collect();
-
-    const followingIds = follows.map((f) => f.followingId);
-
-    // Отримати дані цих користувачів
-    const followingUsers = await Promise.all(
-      followingIds.map((id) => ctx.db.get(id)),
-    );
-
-    // Сформувати список stories
-    const stories = [
-      // Поточний користувач завжди перший ("You")
-      {
-        id: currentUser._id,
-        username: "You",
-        avatar: currentUser.image,
-        hasStory: false, // або перевірка чи є активна story
-      },
-      // Користувачі, на яких підписані
-      ...followingUsers
-        .filter((user) => user !== null)
-        .map((user) => ({
-          id: user!._id,
-          username: user!.username,
-          avatar: user!.image,
-          hasStory: true, // або реальна перевірка
-        })),
-    ];
-
-    return stories;
-  },
-});
-
 export const updateProfile = mutation({
   args: {
     fullname: v.string(),
@@ -116,5 +76,53 @@ export const updateProfile = mutation({
       fullname: args.fullname,
       bio: args.bio,
     });
+  },
+});
+
+export const getStoriesUsers = query({
+  handler: async (ctx) => {
+    const currentUser = await getAuthenticatedUser(ctx);
+    const now = Date.now();
+
+    const follows = await ctx.db
+      .query("follows")
+      .withIndex("by_follower", (q) => q.eq("followerId", currentUser._id))
+      .collect();
+
+    const followingUsers = await Promise.all(
+      follows.map((f) => ctx.db.get(f.followingId)),
+    );
+
+    const hasActiveStory = async (userId: Id<"users">) => {
+      const story = await ctx.db
+        .query("stories")
+        .withIndex("by_user", (q) => q.eq("userId", userId))
+        .filter((q) => q.gt(q.field("expiresAt"), now))
+        .first();
+      return !!story;
+    };
+
+    const currentUserHasStory = await hasActiveStory(currentUser._id);
+
+    const stories = [
+      {
+        id: currentUser._id,
+        username: "You",
+        avatar: currentUser.image,
+        hasStory: currentUserHasStory,
+      },
+      ...(await Promise.all(
+        followingUsers
+          .filter((user) => user !== null)
+          .map(async (user) => ({
+            id: user!._id,
+            username: user!.username,
+            avatar: user!.image,
+            hasStory: await hasActiveStory(user!._id),
+          })),
+      )),
+    ];
+
+    return stories;
   },
 });

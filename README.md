@@ -65,6 +65,10 @@ npx convex dev
 
 ![Feed екран](./screenshots/feed.jpg)
 
+### Сторіз
+
+![Story](./screenshots/story.jpg)
+
 ### Екран додавання посту (Create)
 
 ![Create екран](./screenshots/create_with_image.jpg)
@@ -92,3 +96,11 @@ npx convex dev
 ### Екран профілю редагування профілю
 
 ![Profile екран](./screenshots/profile_edit.jpg)
+
+### Екран чатів
+
+![Chats екран](./screenshots/chats.jpg)
+
+### Чат
+
+![Profile екран](./screenshots/chat.jpg)
