@@ -61,4 +61,30 @@ export default defineSchema({
     .index("by_user", ["userId"])
     .index("by_post", ["postId"])
     .index("by_both", ["userId", "postId"]),
+
+  stories: defineTable({
+    userId: v.id("users"),
+    imageUrl: v.string(),
+    storageId: v.id("_storage"),
+    expiresAt: v.number(),
+    views: v.number(),
+  })
+    .index("by_user", ["userId"])
+    .index("by_expires", ["expiresAt"]),
+
+  conversations: defineTable({
+    participantOneId: v.string(),
+    participantTwoId: v.string(),
+    lastMessageText: v.optional(v.string()),
+    lastMessageTime: v.optional(v.number()),
+  })
+    .index("by_participantOne", ["participantOneId"])
+    .index("by_participantTwo", ["participantTwoId"]),
+
+  messages: defineTable({
+    conversationId: v.id("conversations"),
+    senderId: v.string(),
+    text: v.string(),
+    createdAt: v.number(),
+  }).index("by_conversation", ["conversationId"]),
 });

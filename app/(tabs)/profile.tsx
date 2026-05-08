@@ -7,6 +7,7 @@ import { useAuth } from "@clerk/expo";
 import { Ionicons } from "@expo/vector-icons";
 import { useMutation, useQuery } from "convex/react";
 import { Image } from "expo-image";
+import { router } from "expo-router";
 import { useState } from "react";
 import {
   FlatList,
@@ -118,6 +119,19 @@ export default function Profile() {
               onPress={() => setIsEditModalVisible(true)}
             >
               <Text style={styles.editButtonText}>Edit Profile</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => {
+                router.push("/chats");
+              }}
+              style={[styles.shareButton]}
+            >
+              <Ionicons
+                name="chatbubbles-outline"
+                size={20}
+                color={COLORS.white}
+              />
             </TouchableOpacity>
           </View>
         </View>

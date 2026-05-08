@@ -3,6 +3,7 @@ import { COLORS } from "@/constants/theme";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { styles } from "@/styles/profile.styles";
+import { useUser } from "@clerk/expo";
 import { Ionicons } from "@expo/vector-icons";
 import { useMutation, useQuery } from "convex/react";
 import { Image } from "expo-image";
@@ -19,6 +20,7 @@ import {
 export default function UserProfileScreen() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
+  const { user } = useUser();
 
   const profile = useQuery(api.posts.getUserProfile, { id: id as Id<"users"> });
   const posts = useQuery(api.posts.getPostsByUser, {
@@ -29,15 +31,33 @@ export default function UserProfileScreen() {
   });
 
   const toggleFollow = useMutation(api.posts.toggleFollow);
+  const getOrCreateConversation = useMutation(api.chat.getOrCreateConversation);
 
   if (profile === undefined || posts === undefined || isFollowing === undefined)
     return <Loader />;
+
+  const handleMessage = async () => {
+    if (!user?.id) return;
+
+    const conversationId = await getOrCreateConversation({
+      currentUserId: user.id,
+      otherUserId: profile.clerkId,
+    });
+
+    router.push({
+      pathname: "/chat/[id]",
+      params: {
+        id: conversationId,
+        name: profile.fullname,
+      },
+    });
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()}>
-          <Ionicons name="arrow-back" size={24} color={COLORS.white} />
+          <Ionicons name="arrow-back" size={24} color={COLORS.grey} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>{profile.username}</Text>
         <View style={{ width: 24 }} />
@@ -87,6 +107,10 @@ export default function UserProfileScreen() {
               {isFollowing ? "Following" : "Follow"}
             </Text>
           </Pressable>
+
+          <TouchableOpacity style={styles.followButton} onPress={handleMessage}>
+            <Text style={styles.followButtonText}>Message</Text>
+          </TouchableOpacity>
         </View>
 
         <View style={styles.postsGrid}>
