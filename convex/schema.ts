@@ -13,7 +13,15 @@ export default defineSchema({
     posts: v.number(),
     clerkId: v.string(),
     pushToken: v.optional(v.string()),
-  }).index("by_clerk_id", ["clerkId"]),
+  })
+    .index("by_clerk_id", ["clerkId"])
+    .searchIndex("search_by_username", {
+      searchField: "username", // поле для пошуку
+      filterFields: ["clerkId"], // поля для додаткових фільтрів
+    })
+    .searchIndex("search_by_fullname", {
+      searchField: "fullname",
+    }),
 
   posts: defineTable({
     userId: v.id("users"),
@@ -22,7 +30,11 @@ export default defineSchema({
     caption: v.optional(v.string()),
     likes: v.number(),
     comments: v.number(),
-  }).index("by_user", ["userId"]),
+  })
+    .index("by_user", ["userId"])
+    .searchIndex("search_by_caption", {
+      searchField: "caption", // пошук по тексту підпису/хештегу
+    }),
 
   likes: defineTable({
     userId: v.id("users"),

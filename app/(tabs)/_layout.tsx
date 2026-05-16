@@ -28,6 +28,14 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
+        name="explore"
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons name="search" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
         name="bookmarks"
         options={{
           tabBarIcon: ({ color, size }) => (
