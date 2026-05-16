@@ -1,4 +1,5 @@
 import { ConvexError, v } from "convex/values";
+import { internal } from "./_generated/api";
 import { mutation, query } from "./_generated/server";
 import { getAuthenticatedUser } from "./users";
 
@@ -7,6 +8,7 @@ export const addComment = mutation({
     content: v.string(),
     postId: v.id("posts"),
   },
+
   handler: async (ctx, args) => {
     const currentUser = await getAuthenticatedUser(ctx);
 
@@ -33,6 +35,24 @@ export const addComment = mutation({
       });
     }
 
+    const receiver = await ctx.db.get(post.userId);
+
+    if (receiver?.pushToken && post.userId !== currentUser._id) {
+      await ctx.scheduler.runAfter(
+        0,
+        internal.pushNotifications.sendPushNotification,
+        {
+          pushToken: receiver.pushToken,
+          title: "Новий коментар 💬",
+          body: `${currentUser.username} : ${args.content}`,
+          data: {
+            postId: args.postId,
+            commentId,
+          },
+        },
+      );
+    }
+
     return commentId;
   },
 });
@@ -41,6 +61,7 @@ export const getComments = query({
   args: {
     postId: v.id("posts"),
   },
+
   handler: async (ctx, args) => {
     const comments = await ctx.db
       .query("comments")
@@ -50,6 +71,7 @@ export const getComments = query({
     const commentsWithInfo = await Promise.all(
       comments.map(async (comment) => {
         const user = await ctx.db.get(comment.userId);
+
         return {
           ...comment,
           user: {

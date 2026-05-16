@@ -12,6 +12,7 @@ export default defineSchema({
     following: v.number(),
     posts: v.number(),
     clerkId: v.string(),
+    pushToken: v.optional(v.string()),
   }).index("by_clerk_id", ["clerkId"]),
 
   posts: defineTable({
