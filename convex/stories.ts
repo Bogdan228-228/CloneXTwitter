@@ -1,4 +1,5 @@
 import { v } from "convex/values";
+import { internal } from "./_generated/api";
 import { Id } from "./_generated/dataModel";
 import { mutation, MutationCtx, query } from "./_generated/server";
 import { getAuthenticatedUser } from "./users";
@@ -13,18 +14,49 @@ export const generateUploadUrl = mutation(async (ctx: MutationCtx) => {
 
 export const createStory = mutation({
   args: { storageId: v.id("_storage") },
+
   handler: async (ctx, args) => {
     const currentUser = await getAuthenticatedUser(ctx);
+
     const imageUrl = await ctx.storage.getUrl(args.storageId);
     if (!imageUrl) throw new Error("Image URL not found");
 
-    return await ctx.db.insert("stories", {
+    const storyId = await ctx.db.insert("stories", {
       userId: currentUser._id,
       imageUrl,
       storageId: args.storageId,
       expiresAt: Date.now() + STORY_DURATION_MS,
       views: 0,
     });
+
+    const followers = await ctx.db
+      .query("follows")
+      .withIndex("by_following", (q) => q.eq("followingId", currentUser._id))
+      .collect();
+
+    const followerUsers = await Promise.all(
+      followers.map((f) => ctx.db.get(f.followerId)),
+    );
+
+    for (const user of followerUsers) {
+      if (!user?.pushToken) continue;
+
+      await ctx.scheduler.runAfter(
+        0,
+        internal.pushNotifications.sendPushNotification,
+        {
+          pushToken: user.pushToken,
+          title: "Нова історія 📸",
+          body: `${currentUser.username} додав сторіз`,
+          data: {
+            storyId,
+            userId: currentUser._id,
+          },
+        },
+      );
+    }
+
+    return storyId;
   },
 });
 

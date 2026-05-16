@@ -1,4 +1,5 @@
 import { v } from "convex/values";
+import { internal } from "./_generated/api";
 import { mutation, query } from "./_generated/server";
 
 export const getConversations = query({
@@ -90,6 +91,37 @@ export const sendMessage = mutation({
       lastMessageText: args.text,
       lastMessageTime: now,
     });
+
+    const conversation = await ctx.db.get(args.conversationId);
+
+    if (conversation) {
+      const receiverId =
+        conversation?.participantOneId === args.senderId
+          ? conversation.participantTwoId
+          : conversation?.participantOneId;
+
+      const receiver = await ctx.db
+        .query("users")
+        .withIndex("by_clerk_id", (q) => q.eq("clerkId", receiverId))
+        .first();
+      const sender = await ctx.db
+        .query("users")
+        .withIndex("by_clerk_id", (q) => q.eq("clerkId", args.senderId))
+        .first();
+
+      if (receiver?.pushToken) {
+        await ctx.scheduler.runAfter(
+          0,
+          internal.pushNotifications.sendPushNotification,
+          {
+            pushToken: receiver.pushToken,
+            title: "Нове повідомлення",
+            body: `${sender!.username} надіслав вам повідомлення: ${args.text}`,
+            data: { senderId: args.senderId },
+          },
+        );
+      }
+    }
 
     return messageId;
   },
