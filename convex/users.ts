@@ -126,3 +126,16 @@ export const getStoriesUsers = query({
     return stories;
   },
 });
+
+export const savePushToken = mutation({
+  args: {
+    pushToken: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const currentUser = await getAuthenticatedUser(ctx);
+
+    await ctx.db.patch(currentUser._id, {
+      pushToken: args.pushToken,
+    });
+  },
+});
